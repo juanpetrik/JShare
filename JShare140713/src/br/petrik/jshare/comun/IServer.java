@@ -1,11 +1,11 @@
-package br.dagostini.jshare.comun;
+package br.petrik.jshare.comun;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.List;
 import java.util.Map;
 
-import br.dagostini.jshare.comum.pojos.Arquivo;
+import br.petrik.jshare.comum.pojos.Arquivo;
 
 public interface IServer extends Remote {
 

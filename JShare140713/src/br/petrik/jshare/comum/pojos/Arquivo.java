@@ -1,4 +1,4 @@
-package br.dagostini.jshare.comum.pojos;
+package br.petrik.jshare.comum.pojos;
 
 import java.io.Serializable;
 

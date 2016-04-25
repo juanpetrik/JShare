@@ -1,4 +1,4 @@
-package br.dagostini.jshare.comun;
+package br.petrik.jshare.comun;
 
 import java.io.Serializable;
 
