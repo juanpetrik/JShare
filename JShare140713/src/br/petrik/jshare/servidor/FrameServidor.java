@@ -59,5 +59,5 @@ public class FrameServidor extends JFrame {
 		gbc_textArea.gridy = 0;
 		contentPane.add(textArea, gbc_textArea);
 	}
-
+//
 }
