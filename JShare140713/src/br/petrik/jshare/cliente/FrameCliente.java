@@ -67,9 +67,9 @@ public class FrameCliente extends JFrame implements IServer{
 		setContentPane(contentPane);
 		GridBagLayout gbl_contentPane = new GridBagLayout();
 		gbl_contentPane.columnWidths = new int[]{48, 162, 34, 65, 82, 0};
-		gbl_contentPane.rowHeights = new int[]{0, 0, 0, 0, 0, 0};
+		gbl_contentPane.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0};
 		gbl_contentPane.columnWeights = new double[]{0.0, 1.0, 0.0, 1.0, 0.0, Double.MIN_VALUE};
-		gbl_contentPane.rowWeights = new double[]{0.0, 0.0, 0.0, 1.0, 0.0, Double.MIN_VALUE};
+		gbl_contentPane.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 1.0, 0.0, Double.MIN_VALUE};
 		contentPane.setLayout(gbl_contentPane);
 		
 		JLabel lblCliente = new JLabel("JShare");
@@ -135,13 +135,49 @@ public class FrameCliente extends JFrame implements IServer{
 		gbc_txtPorta.gridy = 2;
 		contentPane.add(txtPorta, gbc_txtPorta);
 		
+		lblSeuIp = new JLabel("Seu IP");
+		GridBagConstraints gbc_lblSeuIp = new GridBagConstraints();
+		gbc_lblSeuIp.anchor = GridBagConstraints.EAST;
+		gbc_lblSeuIp.insets = new Insets(0, 0, 5, 5);
+		gbc_lblSeuIp.gridx = 0;
+		gbc_lblSeuIp.gridy = 3;
+		contentPane.add(lblSeuIp, gbc_lblSeuIp);
+		
+		txtMyIP = new JTextField();
+		txtMyIP.setText("192.168.65.1");
+		txtMyIP.setColumns(10);
+		GridBagConstraints gbc_txtMyIP = new GridBagConstraints();
+		gbc_txtMyIP.insets = new Insets(0, 0, 5, 5);
+		gbc_txtMyIP.fill = GridBagConstraints.HORIZONTAL;
+		gbc_txtMyIP.gridx = 1;
+		gbc_txtMyIP.gridy = 3;
+		contentPane.add(txtMyIP, gbc_txtMyIP);
+		
+		label_1 = new JLabel("Porta");
+		GridBagConstraints gbc_label_1 = new GridBagConstraints();
+		gbc_label_1.anchor = GridBagConstraints.EAST;
+		gbc_label_1.insets = new Insets(0, 0, 5, 5);
+		gbc_label_1.gridx = 2;
+		gbc_label_1.gridy = 3;
+		contentPane.add(label_1, gbc_label_1);
+		
+		txtMyPort = new JTextField();
+		txtMyPort.setText("1819");
+		txtMyPort.setColumns(10);
+		GridBagConstraints gbc_txtMyPort = new GridBagConstraints();
+		gbc_txtMyPort.insets = new Insets(0, 0, 5, 5);
+		gbc_txtMyPort.fill = GridBagConstraints.HORIZONTAL;
+		gbc_txtMyPort.gridx = 3;
+		gbc_txtMyPort.gridy = 3;
+		contentPane.add(txtMyPort, gbc_txtMyPort);
+		
 		JScrollPane scrollPane = new JScrollPane();
 		GridBagConstraints gbc_scrollPane = new GridBagConstraints();
 		gbc_scrollPane.insets = new Insets(0, 0, 5, 0);
 		gbc_scrollPane.gridwidth = 5;
 		gbc_scrollPane.fill = GridBagConstraints.BOTH;
 		gbc_scrollPane.gridx = 0;
-		gbc_scrollPane.gridy = 3;
+		gbc_scrollPane.gridy = 4;
 		contentPane.add(scrollPane, gbc_scrollPane);
 		
 		table = new JTable();
@@ -152,13 +188,13 @@ public class FrameCliente extends JFrame implements IServer{
 		gbc_btnConectar.anchor = GridBagConstraints.EAST;
 		gbc_btnConectar.insets = new Insets(0, 0, 0, 5);
 		gbc_btnConectar.gridx = 3;
-		gbc_btnConectar.gridy = 4;
+		gbc_btnConectar.gridy = 5;
 		contentPane.add(btnConectar, gbc_btnConectar);
 		
 		btnDesconectar = new JButton("Desconectar");
 		GridBagConstraints gbc_btnDesconectar = new GridBagConstraints();
 		gbc_btnDesconectar.gridx = 4;
-		gbc_btnDesconectar.gridy = 4;
+		gbc_btnDesconectar.gridy = 5;
 		contentPane.add(btnDesconectar, gbc_btnDesconectar);
 	}
 
@@ -173,6 +209,10 @@ public class FrameCliente extends JFrame implements IServer{
 	private JTextField txtNome;
 	private JTextField txtIP;
 	private JTextField txtPorta;
+	private JLabel lblSeuIp;
+	private JLabel label_1;
+	private JTextField txtMyIP;
+	private JTextField txtMyPort;
 	
 	public void configurar() {
 
@@ -234,19 +274,25 @@ public class FrameCliente extends JFrame implements IServer{
 			//cliente = (Cliente) UnicastRemoteObject.exportObject(this, 0);
 
 			cliente = new Cliente();
-			cliente.setIp(txtIP.getText());
+			cliente.setIp(txtMyIP.getText());
+			cliente.setPorta(Integer.parseInt(txtMyPort.getText()));
 			cliente.setNome(txtNome.getText());
-			cliente.setPorta(Integer.parseInt(txtPorta.getText()));
-			
+						
 			// Avisando o servidor que está entrando no Chat.
 			servidor.registrarCliente(cliente);
 
+			// Publicar minha lista de arquivos...
+			
+			
+			
+			
 			btnDesconectar.setEnabled(true);
-
 			btnConectar.setEnabled(false);
 			txtNome.setEnabled(false);
 			txtIP.setEnabled(false);
 			txtPorta.setEnabled(false);
+			txtMyIP.setEnabled(false);
+			txtMyPort.setEnabled(false);
 
 			btnConectar.setEnabled(false);
 		} catch (RemoteException e) {
@@ -278,7 +324,9 @@ public class FrameCliente extends JFrame implements IServer{
 			txtNome.setEnabled(true);
 			txtIP.setEnabled(true);
 			txtPorta.setEnabled(true);
-
+			txtMyIP.setEnabled(true);
+			txtMyPort.setEnabled(true);
+			
 			btnConectar.setEnabled(true);
 
 			registry = null;
