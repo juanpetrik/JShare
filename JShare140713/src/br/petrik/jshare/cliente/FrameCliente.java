@@ -47,6 +47,8 @@ public class FrameCliente extends JFrame implements IServer{
 				try {
 					FrameCliente frame = new FrameCliente();
 					frame.setVisible(true);
+					frame.configurar();
+					frame.setBounds(0, 350, 800, 300);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -59,7 +61,7 @@ public class FrameCliente extends JFrame implements IServer{
 	 */
 	public FrameCliente() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 481, 300);
+		setBounds(100, 100, 481, 409);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -88,6 +90,7 @@ public class FrameCliente extends JFrame implements IServer{
 		contentPane.add(lblNome, gbc_lblNome);
 		
 		txtNome = new JTextField();
+		txtNome.setText("Juan Pablo");
 		GridBagConstraints gbc_txtNome = new GridBagConstraints();
 		gbc_txtNome.insets = new Insets(0, 0, 5, 5);
 		gbc_txtNome.fill = GridBagConstraints.HORIZONTAL;
@@ -105,6 +108,7 @@ public class FrameCliente extends JFrame implements IServer{
 		contentPane.add(lblIp, gbc_lblIp);
 		
 		txtIP = new JTextField();
+		txtIP.setText("127.0.0.1");
 		GridBagConstraints gbc_txtIP = new GridBagConstraints();
 		gbc_txtIP.insets = new Insets(0, 0, 5, 5);
 		gbc_txtIP.fill = GridBagConstraints.HORIZONTAL;
@@ -122,6 +126,7 @@ public class FrameCliente extends JFrame implements IServer{
 		contentPane.add(lblPorta, gbc_lblPorta);
 		
 		txtPorta = new JTextField();
+		txtPorta.setText("1818");
 		txtPorta.setColumns(10);
 		GridBagConstraints gbc_txtPorta = new GridBagConstraints();
 		gbc_txtPorta.insets = new Insets(0, 0, 5, 5);
@@ -144,6 +149,7 @@ public class FrameCliente extends JFrame implements IServer{
 		
 		btnConectar = new JButton("Conectar");
 		GridBagConstraints gbc_btnConectar = new GridBagConstraints();
+		gbc_btnConectar.anchor = GridBagConstraints.EAST;
 		gbc_btnConectar.insets = new Insets(0, 0, 0, 5);
 		gbc_btnConectar.gridx = 3;
 		gbc_btnConectar.gridy = 4;
@@ -168,7 +174,7 @@ public class FrameCliente extends JFrame implements IServer{
 	private JTextField txtIP;
 	private JTextField txtPorta;
 	
-	protected void configurar() {
+	public void configurar() {
 
 		btnConectar.addActionListener(new ActionListener() {
 			@Override
@@ -225,10 +231,15 @@ public class FrameCliente extends JFrame implements IServer{
 			registry = LocateRegistry.getRegistry(host, intPorta);
 
 			servidor = (IServer) registry.lookup(IServer.NOME_SERVICO);
-			cliente = (Cliente) UnicastRemoteObject.exportObject(this, 0);
+			//cliente = (Cliente) UnicastRemoteObject.exportObject(this, 0);
 
+			cliente = new Cliente();
+			cliente.setIp(txtIP.getText());
+			cliente.setNome(txtNome.getText());
+			cliente.setPorta(Integer.parseInt(txtPorta.getText()));
+			
 			// Avisando o servidor que está entrando no Chat.
-			//servidor.entrarNoChat(meunome, cliente);
+			servidor.registrarCliente(cliente);
 
 			btnDesconectar.setEnabled(true);
 
@@ -253,8 +264,8 @@ public class FrameCliente extends JFrame implements IServer{
 		try {
 
 			if (servidor != null) {
-				//servidor.sair(meunome);
-				UnicastRemoteObject.unexportObject(this, true);
+				servidor.desconectar(cliente);
+				//UnicastRemoteObject.unexportObject(this, true); Por algum motivo nao ta funfando..
 
 				servidor = null;
 			}

@@ -42,6 +42,7 @@ import javax.swing.border.EmptyBorder;
 import br.petrik.jshare.comum.interfaces.Cliente;
 import br.petrik.jshare.comum.interfaces.IServer;
 import br.petrik.jshare.comum.pojos.Arquivo;
+import java.awt.Font;
 
 public class FrameServidor extends JFrame implements IServer{
 
@@ -61,6 +62,9 @@ public class FrameServidor extends JFrame implements IServer{
 					FrameServidor frame = new FrameServidor();
 					frame.setVisible(true);
 					frame.configurar();
+					
+					frame.setBounds(0, 0, 800, 300);
+					
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -73,14 +77,14 @@ public class FrameServidor extends JFrame implements IServer{
 	 */
 	public FrameServidor() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 501, 300);
+		setBounds(100, 100, 648, 408);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		GridBagLayout gbl_contentPane = new GridBagLayout();
 		gbl_contentPane.columnWidths = new int[]{0, 0, 0, 0, 0, 0};
 		gbl_contentPane.rowHeights = new int[]{0, 0, 0, 0};
-		gbl_contentPane.columnWeights = new double[]{1.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+		gbl_contentPane.columnWeights = new double[]{0.0, 1.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		gbl_contentPane.rowWeights = new double[]{0.0, 0.0, 1.0, Double.MIN_VALUE};
 		contentPane.setLayout(gbl_contentPane);
 		
@@ -88,7 +92,7 @@ public class FrameServidor extends JFrame implements IServer{
 		GridBagConstraints gbc_label = new GridBagConstraints();
 		gbc_label.insets = new Insets(0, 0, 5, 5);
 		gbc_label.anchor = GridBagConstraints.EAST;
-		gbc_label.gridx = 1;
+		gbc_label.gridx = 0;
 		gbc_label.gridy = 0;
 		contentPane.add(label, gbc_label);
 		
@@ -98,7 +102,7 @@ public class FrameServidor extends JFrame implements IServer{
 		GridBagConstraints gbc_comboIP = new GridBagConstraints();
 		gbc_comboIP.anchor = GridBagConstraints.WEST;
 		gbc_comboIP.insets = new Insets(0, 0, 5, 5);
-		gbc_comboIP.gridx = 2;
+		gbc_comboIP.gridx = 1;
 		gbc_comboIP.gridy = 0;
 		contentPane.add(comboIP, gbc_comboIP);
 		
@@ -106,7 +110,7 @@ public class FrameServidor extends JFrame implements IServer{
 		GridBagConstraints gbc_label_1 = new GridBagConstraints();
 		gbc_label_1.anchor = GridBagConstraints.EAST;
 		gbc_label_1.insets = new Insets(0, 0, 5, 5);
-		gbc_label_1.gridx = 1;
+		gbc_label_1.gridx = 0;
 		gbc_label_1.gridy = 1;
 		contentPane.add(label_1, gbc_label_1);
 		
@@ -117,7 +121,7 @@ public class FrameServidor extends JFrame implements IServer{
 		GridBagConstraints gbc_txtPorta = new GridBagConstraints();
 		gbc_txtPorta.anchor = GridBagConstraints.WEST;
 		gbc_txtPorta.insets = new Insets(0, 0, 5, 5);
-		gbc_txtPorta.gridx = 2;
+		gbc_txtPorta.gridx = 1;
 		gbc_txtPorta.gridy = 1;
 		contentPane.add(txtPorta, gbc_txtPorta);
 		
@@ -146,6 +150,7 @@ public class FrameServidor extends JFrame implements IServer{
 		contentPane.add(scrollPane, gbc_scrollPane);
 		
 		txtArea = new JTextArea();
+		txtArea.setFont(new Font("Monospaced", Font.BOLD, 16));
 		txtArea.setForeground(Color.GREEN);
 		txtArea.setEnabled(false);
 		txtArea.setBackground(Color.BLACK);
@@ -156,7 +161,10 @@ public class FrameServidor extends JFrame implements IServer{
 	
 	private SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy H:mm:ss:SSS");
 	private IServer servidor;
+	
+	// Lista para armazenar os clientes que estão conectados..
 	private Map<String, Cliente> mapaClientes = new HashMap<>();
+	
 	private Registry registry;
 	
 	
@@ -270,6 +278,9 @@ public class FrameServidor extends JFrame implements IServer{
 		txtArea.append(" -> ");
 		txtArea.append(string);
 		txtArea.append("\n");
+		
+		// Faz a "rolagem" no textArea
+		txtArea.setCaretPosition(txtArea.getText().length());
 	}
 	
 	private List<String> getIpsDisponiveis() {
@@ -304,8 +315,8 @@ public class FrameServidor extends JFrame implements IServer{
 
 	@Override
 	public void registrarCliente(Cliente c) throws RemoteException {
-		// TODO Auto-generated method stub
-		
+		mapaClientes.put(c.getIp(), c);
+		mostrar("Cliente " + c.getNome() + " se conectou.");		
 	}
 
 	@Override
@@ -328,7 +339,7 @@ public class FrameServidor extends JFrame implements IServer{
 
 	@Override
 	public void desconectar(Cliente c) throws RemoteException {
-		// TODO Auto-generated method stub
-		
+		mapaClientes.remove(c.getIp());
+		mostrar(c.getNome() + " se desconectou.");
 	}
 }
