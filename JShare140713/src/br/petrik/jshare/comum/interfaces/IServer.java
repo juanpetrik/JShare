@@ -1,4 +1,4 @@
-package br.petrik.jshare.comun;
+package br.petrik.jshare.comum.interfaces;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
