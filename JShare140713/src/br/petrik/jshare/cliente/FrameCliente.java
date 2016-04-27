@@ -9,16 +9,15 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.File;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
-import java.rmi.server.UnicastRemoteObject;
-import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -32,9 +31,14 @@ import javax.swing.border.EmptyBorder;
 import br.petrik.jshare.comum.interfaces.Cliente;
 import br.petrik.jshare.comum.interfaces.IServer;
 import br.petrik.jshare.comum.pojos.Arquivo;
+import br.petrik.jshare.comum.pojos.Diretorio;
 
 public class FrameCliente extends JFrame implements IServer{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private JTable table;
 
@@ -198,8 +202,6 @@ public class FrameCliente extends JFrame implements IServer{
 		contentPane.add(btnDesconectar, gbc_btnDesconectar);
 	}
 
-	private SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy H:mm:ss:SSS");
-
 	private IServer servidor;
 	private Cliente cliente;
 	private Registry registry;
@@ -283,7 +285,9 @@ public class FrameCliente extends JFrame implements IServer{
 
 			// Publicar minha lista de arquivos...
 			
+			List<Arquivo> lista = getMyListArchives();;
 			
+			servidor.publicarListaArquivos(cliente, lista);
 			
 			
 			btnDesconectar.setEnabled(true);
@@ -301,6 +305,29 @@ public class FrameCliente extends JFrame implements IServer{
 			e.printStackTrace();
 		}
 
+	}
+
+	private List<Arquivo> getMyListArchives() {
+		File dirStart = new File("C:\\JShare\\Uploads\\");
+
+		List<Arquivo> listaArquivos = new ArrayList<>();
+		
+		for (File file : dirStart.listFiles()) {
+			if (file.isFile()) {
+				Arquivo arq = new Arquivo();
+				arq.setNome(file.getName());
+				arq.setTamanho(file.length());
+				listaArquivos.add(arq);
+			} 
+		}
+
+		/*
+		System.out.println("Arquivos");
+		for (Arquivo arq : listaArquivos) {
+			System.out.println("\t" + arq.getTamanho() + "\t" + arq.getNome());
+		} */
+		
+		return listaArquivos;
 	}
 
 	/**
