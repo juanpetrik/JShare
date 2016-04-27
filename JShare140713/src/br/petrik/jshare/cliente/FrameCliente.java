@@ -33,7 +33,7 @@ import br.petrik.jshare.comum.interfaces.IServer;
 import br.petrik.jshare.comum.pojos.Arquivo;
 import br.petrik.jshare.comum.pojos.Diretorio;
 
-public class FrameCliente extends JFrame implements IServer{
+public class FrameCliente extends JFrame implements IServer {
 
 	/**
 	 * 
@@ -70,12 +70,12 @@ public class FrameCliente extends JFrame implements IServer{
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		GridBagLayout gbl_contentPane = new GridBagLayout();
-		gbl_contentPane.columnWidths = new int[]{48, 162, 34, 65, 82, 0};
-		gbl_contentPane.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0};
-		gbl_contentPane.columnWeights = new double[]{0.0, 1.0, 0.0, 1.0, 0.0, Double.MIN_VALUE};
-		gbl_contentPane.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 1.0, 0.0, Double.MIN_VALUE};
+		gbl_contentPane.columnWidths = new int[] { 48, 162, 34, 65, 82, 0 };
+		gbl_contentPane.rowHeights = new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+		gbl_contentPane.columnWeights = new double[] { 0.0, 1.0, 0.0, 1.0, 0.0, Double.MIN_VALUE };
+		gbl_contentPane.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, Double.MIN_VALUE };
 		contentPane.setLayout(gbl_contentPane);
-		
+
 		JLabel lblCliente = new JLabel("JShare");
 		lblCliente.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		GridBagConstraints gbc_lblCliente = new GridBagConstraints();
@@ -84,7 +84,7 @@ public class FrameCliente extends JFrame implements IServer{
 		gbc_lblCliente.gridx = 0;
 		gbc_lblCliente.gridy = 0;
 		contentPane.add(lblCliente, gbc_lblCliente);
-		
+
 		JLabel lblNome = new JLabel("Nome");
 		GridBagConstraints gbc_lblNome = new GridBagConstraints();
 		gbc_lblNome.anchor = GridBagConstraints.EAST;
@@ -92,7 +92,7 @@ public class FrameCliente extends JFrame implements IServer{
 		gbc_lblNome.gridx = 0;
 		gbc_lblNome.gridy = 1;
 		contentPane.add(lblNome, gbc_lblNome);
-		
+
 		txtNome = new JTextField();
 		txtNome.setText("Juan Pablo");
 		GridBagConstraints gbc_txtNome = new GridBagConstraints();
@@ -102,7 +102,7 @@ public class FrameCliente extends JFrame implements IServer{
 		gbc_txtNome.gridy = 1;
 		contentPane.add(txtNome, gbc_txtNome);
 		txtNome.setColumns(10);
-		
+
 		JLabel lblIp = new JLabel("IP Servidor");
 		GridBagConstraints gbc_lblIp = new GridBagConstraints();
 		gbc_lblIp.anchor = GridBagConstraints.EAST;
@@ -110,7 +110,7 @@ public class FrameCliente extends JFrame implements IServer{
 		gbc_lblIp.gridx = 0;
 		gbc_lblIp.gridy = 2;
 		contentPane.add(lblIp, gbc_lblIp);
-		
+
 		txtIP = new JTextField();
 		txtIP.setText("127.0.0.1");
 		GridBagConstraints gbc_txtIP = new GridBagConstraints();
@@ -120,7 +120,7 @@ public class FrameCliente extends JFrame implements IServer{
 		gbc_txtIP.gridy = 2;
 		contentPane.add(txtIP, gbc_txtIP);
 		txtIP.setColumns(10);
-		
+
 		JLabel lblPorta = new JLabel("Porta");
 		GridBagConstraints gbc_lblPorta = new GridBagConstraints();
 		gbc_lblPorta.anchor = GridBagConstraints.EAST;
@@ -128,7 +128,7 @@ public class FrameCliente extends JFrame implements IServer{
 		gbc_lblPorta.gridx = 2;
 		gbc_lblPorta.gridy = 2;
 		contentPane.add(lblPorta, gbc_lblPorta);
-		
+
 		txtPorta = new JTextField();
 		txtPorta.setText("1818");
 		txtPorta.setColumns(10);
@@ -138,7 +138,7 @@ public class FrameCliente extends JFrame implements IServer{
 		gbc_txtPorta.gridx = 3;
 		gbc_txtPorta.gridy = 2;
 		contentPane.add(txtPorta, gbc_txtPorta);
-		
+
 		lblSeuIp = new JLabel("Seu IP");
 		GridBagConstraints gbc_lblSeuIp = new GridBagConstraints();
 		gbc_lblSeuIp.anchor = GridBagConstraints.EAST;
@@ -146,7 +146,7 @@ public class FrameCliente extends JFrame implements IServer{
 		gbc_lblSeuIp.gridx = 0;
 		gbc_lblSeuIp.gridy = 3;
 		contentPane.add(lblSeuIp, gbc_lblSeuIp);
-		
+
 		txtMyIP = new JTextField();
 		txtMyIP.setText("192.168.65.1");
 		txtMyIP.setColumns(10);
@@ -156,7 +156,7 @@ public class FrameCliente extends JFrame implements IServer{
 		gbc_txtMyIP.gridx = 1;
 		gbc_txtMyIP.gridy = 3;
 		contentPane.add(txtMyIP, gbc_txtMyIP);
-		
+
 		label_1 = new JLabel("Porta");
 		GridBagConstraints gbc_label_1 = new GridBagConstraints();
 		gbc_label_1.anchor = GridBagConstraints.EAST;
@@ -164,7 +164,7 @@ public class FrameCliente extends JFrame implements IServer{
 		gbc_label_1.gridx = 2;
 		gbc_label_1.gridy = 3;
 		contentPane.add(label_1, gbc_label_1);
-		
+
 		txtMyPort = new JTextField();
 		txtMyPort.setText("1819");
 		txtMyPort.setColumns(10);
@@ -175,30 +175,55 @@ public class FrameCliente extends JFrame implements IServer{
 		gbc_txtMyPort.gridy = 3;
 		contentPane.add(txtMyPort, gbc_txtMyPort);
 		
+		lblNomeDoArquivo = new JLabel("Nome do Arquivo");
+		GridBagConstraints gbc_lblNomeDoArquivo = new GridBagConstraints();
+		gbc_lblNomeDoArquivo.anchor = GridBagConstraints.EAST;
+		gbc_lblNomeDoArquivo.insets = new Insets(0, 0, 5, 5);
+		gbc_lblNomeDoArquivo.gridx = 0;
+		gbc_lblNomeDoArquivo.gridy = 5;
+		contentPane.add(lblNomeDoArquivo, gbc_lblNomeDoArquivo);
+		
+		txtNomeArquivo = new JTextField();
+		txtNomeArquivo.setColumns(10);
+		GridBagConstraints gbc_txtNomeArquivo = new GridBagConstraints();
+		gbc_txtNomeArquivo.gridwidth = 3;
+		gbc_txtNomeArquivo.insets = new Insets(0, 0, 5, 5);
+		gbc_txtNomeArquivo.fill = GridBagConstraints.HORIZONTAL;
+		gbc_txtNomeArquivo.gridx = 1;
+		gbc_txtNomeArquivo.gridy = 5;
+		contentPane.add(txtNomeArquivo, gbc_txtNomeArquivo);
+		
+		btnPesquisar = new JButton("Pesquisar");
+		GridBagConstraints gbc_btnPesquisar = new GridBagConstraints();
+		gbc_btnPesquisar.insets = new Insets(0, 0, 5, 0);
+		gbc_btnPesquisar.gridx = 4;
+		gbc_btnPesquisar.gridy = 5;
+		contentPane.add(btnPesquisar, gbc_btnPesquisar);
+
 		JScrollPane scrollPane = new JScrollPane();
 		GridBagConstraints gbc_scrollPane = new GridBagConstraints();
 		gbc_scrollPane.insets = new Insets(0, 0, 5, 0);
 		gbc_scrollPane.gridwidth = 5;
 		gbc_scrollPane.fill = GridBagConstraints.BOTH;
 		gbc_scrollPane.gridx = 0;
-		gbc_scrollPane.gridy = 4;
+		gbc_scrollPane.gridy = 6;
 		contentPane.add(scrollPane, gbc_scrollPane);
-		
+
 		table = new JTable();
 		scrollPane.setColumnHeaderView(table);
-		
+
 		btnConectar = new JButton("Conectar");
 		GridBagConstraints gbc_btnConectar = new GridBagConstraints();
 		gbc_btnConectar.anchor = GridBagConstraints.EAST;
 		gbc_btnConectar.insets = new Insets(0, 0, 0, 5);
 		gbc_btnConectar.gridx = 3;
-		gbc_btnConectar.gridy = 5;
+		gbc_btnConectar.gridy = 7;
 		contentPane.add(btnConectar, gbc_btnConectar);
-		
+
 		btnDesconectar = new JButton("Desconectar");
 		GridBagConstraints gbc_btnDesconectar = new GridBagConstraints();
 		gbc_btnDesconectar.gridx = 4;
-		gbc_btnDesconectar.gridy = 5;
+		gbc_btnDesconectar.gridy = 7;
 		contentPane.add(btnDesconectar, gbc_btnDesconectar);
 	}
 
@@ -215,7 +240,12 @@ public class FrameCliente extends JFrame implements IServer{
 	private JLabel label_1;
 	private JTextField txtMyIP;
 	private JTextField txtMyPort;
+	private JLabel lblNomeDoArquivo;
+	private JButton btnPesquisar;
+	private JTextField txtNomeArquivo;
 	
+	private ModelArquivo modelo;
+
 	public void configurar() {
 
 		btnConectar.addActionListener(new ActionListener() {
@@ -232,7 +262,13 @@ public class FrameCliente extends JFrame implements IServer{
 			}
 		});
 
-
+		btnPesquisar.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				consultarArquivos();
+			}
+		});
+		
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.addWindowListener(new WindowAdapter() {
 			@Override
@@ -240,6 +276,18 @@ public class FrameCliente extends JFrame implements IServer{
 				desconectar();
 			}
 		});
+	}
+
+	protected void consultarArquivos() {
+		try {
+			Map<Cliente, List<Arquivo>> ArquivosListados = servidor.procurarArquivo(txtNomeArquivo.getText());
+			
+			table.setModel(modelo);
+			
+			
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		}
 	}
 
 	/**
@@ -273,22 +321,20 @@ public class FrameCliente extends JFrame implements IServer{
 			registry = LocateRegistry.getRegistry(host, intPorta);
 
 			servidor = (IServer) registry.lookup(IServer.NOME_SERVICO);
-			//cliente = (Cliente) UnicastRemoteObject.exportObject(this, 0);
+			// cliente = (Cliente) UnicastRemoteObject.exportObject(this, 0);
 
 			cliente = new Cliente();
 			cliente.setIp(txtMyIP.getText());
 			cliente.setPorta(Integer.parseInt(txtMyPort.getText()));
 			cliente.setNome(txtNome.getText());
-						
+
 			// Avisando o servidor que está entrando no Chat.
 			servidor.registrarCliente(cliente);
 
 			// Publicar minha lista de arquivos...
-			
-			List<Arquivo> lista = getMyListArchives();;
-			
+			List<Arquivo> lista = getMyListArchives();
+
 			servidor.publicarListaArquivos(cliente, lista);
-			
 			
 			btnDesconectar.setEnabled(true);
 			btnConectar.setEnabled(false);
@@ -311,22 +357,21 @@ public class FrameCliente extends JFrame implements IServer{
 		File dirStart = new File("C:\\JShare\\Uploads\\");
 
 		List<Arquivo> listaArquivos = new ArrayList<>();
-		
+
 		for (File file : dirStart.listFiles()) {
 			if (file.isFile()) {
-				Arquivo arq = new Arquivo();
-				arq.setNome(file.getName());
-				arq.setTamanho(file.length());
-				listaArquivos.add(arq);
-			} 
+				Arquivo arquivo = new Arquivo();
+				arquivo.setNome(file.getName());
+				arquivo.setTamanho(file.length());
+				listaArquivos.add(arquivo);
+			}
 		}
 
 		/*
-		System.out.println("Arquivos");
-		for (Arquivo arq : listaArquivos) {
-			System.out.println("\t" + arq.getTamanho() + "\t" + arq.getNome());
-		} */
-		
+		 * System.out.println("Arquivos"); for (Arquivo arq : listaArquivos) {
+		 * System.out.println("\t" + arq.getTamanho() + "\t" + arq.getNome()); }
+		 */
+
 		return listaArquivos;
 	}
 
@@ -338,12 +383,13 @@ public class FrameCliente extends JFrame implements IServer{
 
 			if (servidor != null) {
 				servidor.desconectar(cliente);
-				//UnicastRemoteObject.unexportObject(this, true); Por algum motivo nao ta funfando..
+				// UnicastRemoteObject.unexportObject(this, true); Por algum
+				// motivo nao ta funfando..
 
 				servidor = null;
 			}
 
-			//mostrar("Você saiu do chat.");
+			// mostrar("Você saiu do chat.");
 
 			btnDesconectar.setEnabled(false);
 
@@ -353,7 +399,7 @@ public class FrameCliente extends JFrame implements IServer{
 			txtPorta.setEnabled(true);
 			txtMyIP.setEnabled(true);
 			txtMyPort.setEnabled(true);
-			
+
 			btnConectar.setEnabled(true);
 
 			registry = null;
@@ -367,13 +413,13 @@ public class FrameCliente extends JFrame implements IServer{
 	@Override
 	public void registrarCliente(Cliente c) throws RemoteException {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void publicarListaArquivos(Cliente c, List<Arquivo> lista) throws RemoteException {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
@@ -391,6 +437,6 @@ public class FrameCliente extends JFrame implements IServer{
 	@Override
 	public void desconectar(Cliente c) throws RemoteException {
 		// TODO Auto-generated method stub
-		
+
 	}
 }

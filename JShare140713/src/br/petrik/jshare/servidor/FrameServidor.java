@@ -165,6 +165,9 @@ public class FrameServidor extends JFrame implements IServer{
 	// Lista para armazenar os clientes que estão conectados..
 	private Map<String, Cliente> mapaClientes = new HashMap<>();
 	
+	// Lista que vai armazenar os arquivos dos clientes..
+	private Map<Arquivo, Cliente> mapaClienteArquivo = new HashMap<>();
+	
 	private Registry registry;
 	
 	
@@ -321,8 +324,11 @@ public class FrameServidor extends JFrame implements IServer{
 
 	@Override
 	public void publicarListaArquivos(Cliente c, List<Arquivo> lista) throws RemoteException {
-		// TODO Auto-generated method stub
-		
+
+		for (Arquivo arquivo : lista) {
+			// Adiciono o arquivo como chave.. porque um cliente pode ter varios arquivos.. ou seja.. daria B.O
+			mapaClienteArquivo.put(arquivo, c);
+		}		
 	}
 
 	@Override
