@@ -3,6 +3,7 @@ package br.petrik.jshare.servidor;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.EventQueue;
+import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -42,7 +43,6 @@ import javax.swing.border.EmptyBorder;
 import br.petrik.jshare.comum.interfaces.Cliente;
 import br.petrik.jshare.comum.interfaces.IServer;
 import br.petrik.jshare.comum.pojos.Arquivo;
-import java.awt.Font;
 
 public class FrameServidor extends JFrame implements IServer{
 
@@ -328,13 +328,33 @@ public class FrameServidor extends JFrame implements IServer{
 		for (Arquivo arquivo : lista) {
 			// Adiciono o arquivo como chave.. porque um cliente pode ter varios arquivos.. ou seja.. daria B.O
 			mapaClienteArquivo.put(arquivo, c);
+			mostrar("Adicionando arquivo " + arquivo.getNome() + " do cliente " + c.getNome());
 		}		
 	}
 
 	@Override
 	public Map<Cliente, List<Arquivo>> procurarArquivo(String nome) throws RemoteException {
-		// TODO Auto-generated method stub
-		return null;
+		
+		Map<Cliente, List<Arquivo>> lista = new HashMap<>();
+		
+		Cliente c = new Cliente();
+		c.setIp("192.168.0.1");
+		c.setNome("Cliente Teste");
+		c.setPorta(1815);
+		
+		Arquivo arquivo = new Arquivo();
+		
+		arquivo.setNome("Teste");
+		arquivo.setTamanho(2500);
+		
+		List<Arquivo> arquivos = new ArrayList<Arquivo>() {
+		};
+		
+		arquivos.add(arquivo);
+		
+		lista.put(c, arquivos);
+		
+		return lista;
 	}
 
 	@Override

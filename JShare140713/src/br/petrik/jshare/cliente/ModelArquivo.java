@@ -1,9 +1,9 @@
 package br.petrik.jshare.cliente;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import javax.swing.table.AbstractTableModel;
 
@@ -12,60 +12,73 @@ import br.petrik.jshare.comum.pojos.Arquivo;
 
 public class ModelArquivo extends AbstractTableModel {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	Map<Cliente, List<Arquivo>> ArquivosListados = new HashMap<>();
 
-	Map<Arquivo, Cliente> listaConvertida = new HashMap<>();
+	private Object[][] matriz;
 
+	private int linhas;
+	
+	
 	public ModelArquivo(Map<Cliente, List<Arquivo>> lista) {
 		this.ArquivosListados = lista;
+		
+		linhas = 0;
+		
+		for (Entry<Cliente, List<Arquivo>> e : ArquivosListados.entrySet()) {
+			linhas += e.getValue().size();
+		}
+		
+		matriz = new Object[linhas][5];
+		
+		int linha = 0;		
+		for (Entry<Cliente, List<Arquivo>> e : ArquivosListados.entrySet()) {
+			
+			for (Arquivo arq: e.getValue()){
+				
+				matriz[linha][0] = e.getKey().getNome();
+				matriz[linha][1] = e.getKey().getIp();
+				matriz[linha][2] = e.getKey().getPorta();
+				matriz[linha][3] = arq.getNome();
+				matriz[linha][4] = arq.getTamanho();
+
+				linha++;
+			}
+			
+		}
 	}
 
 	@Override
 	public int getColumnCount() {
-		// Nome arquivo, Tamanho Arquivo, Nome Cliente..
-		return 3;
+		return 5;
 	}
 
 	@Override
 	public int getRowCount() {
-		return ArquivosListados.size();
+		return linhas;
 	}
 
 	@Override
 	public Object getValueAt(int row, int col) {
-		converterLista();		
-		
 		switch (col) {
 		// nome do arquivo
-		case 0: 
+		case 0: return matriz[row][0];
 
-			break;
+		case 1: return matriz[row][1];
 
-		case 1:
-
-			break;
-
-		case 2:
-
-			break;
-
-		default:
-			break;
+		case 2: return matriz[row][2];
+		
+		case 3: return matriz[row][3];
+		
+		case 4: return matriz[row][4];
+		
+		default: return "";
 		}
-
-		return null;
 	}
 
-	private void converterLista() {
-		for (Cliente key : ArquivosListados.keySet()) {
-
-			List<Arquivo> arquivos = ArquivosListados.get(key);
-
-			for (Arquivo arquivo : arquivos) {
-				listaConvertida.put(arquivo, key);
-			}
-		}
-
-	}
 
 }

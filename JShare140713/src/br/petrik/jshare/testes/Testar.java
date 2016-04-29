@@ -16,12 +16,12 @@ public class Testar {
 					FrameServidor servidor = new FrameServidor();
 					servidor.setVisible(true);
 					servidor.configurar();
-					servidor.setBounds(0, 0, 800, 300);
+					servidor.setBounds(0, 0, 1000, 300);
 					
 					FrameCliente cliente = new FrameCliente();
 					cliente.setVisible(true);
 					cliente.configurar();
-					cliente.setBounds(0, 350, 800, 300);
+					cliente.setBounds(0, 350, 1000, 300);
 					
 				} catch (Exception e) {
 					e.printStackTrace();

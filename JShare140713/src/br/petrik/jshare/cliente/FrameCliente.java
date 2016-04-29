@@ -282,6 +282,8 @@ public class FrameCliente extends JFrame implements IServer {
 		try {
 			Map<Cliente, List<Arquivo>> ArquivosListados = servidor.procurarArquivo(txtNomeArquivo.getText());
 			
+			modelo = new ModelArquivo(ArquivosListados);
+			
 			table.setModel(modelo);
 			
 			
