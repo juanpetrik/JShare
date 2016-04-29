@@ -280,9 +280,9 @@ public class FrameCliente extends JFrame implements IServer {
 
 	protected void consultarArquivos() {
 		try {
-			Map<Cliente, List<Arquivo>> ArquivosListados = servidor.procurarArquivo(txtNomeArquivo.getText());
+			Map<Cliente, List<Arquivo>> arquivosListados = servidor.procurarArquivo(txtNomeArquivo.getText());
 			
-			modelo = new ModelArquivo(ArquivosListados);
+			modelo = new ModelArquivo(arquivosListados);
 			
 			table.setModel(modelo);
 			

@@ -347,8 +347,7 @@ public class FrameServidor extends JFrame implements IServer{
 		arquivo.setNome("Teste");
 		arquivo.setTamanho(2500);
 		
-		List<Arquivo> arquivos = new ArrayList<Arquivo>() {
-		};
+		List<Arquivo> arquivos = new ArrayList<Arquivo>();
 		
 		arquivos.add(arquivo);
 		
