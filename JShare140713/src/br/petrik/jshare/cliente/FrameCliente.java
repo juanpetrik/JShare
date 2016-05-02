@@ -7,9 +7,16 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
@@ -31,7 +38,6 @@ import javax.swing.border.EmptyBorder;
 import br.petrik.jshare.comum.interfaces.Cliente;
 import br.petrik.jshare.comum.interfaces.IServer;
 import br.petrik.jshare.comum.pojos.Arquivo;
-import br.petrik.jshare.comum.pojos.Diretorio;
 
 public class FrameCliente extends JFrame implements IServer {
 
@@ -40,7 +46,6 @@ public class FrameCliente extends JFrame implements IServer {
 	 */
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
-	private JTable table;
 
 	/**
 	 * Launch the application.
@@ -174,7 +179,7 @@ public class FrameCliente extends JFrame implements IServer {
 		gbc_txtMyPort.gridx = 3;
 		gbc_txtMyPort.gridy = 3;
 		contentPane.add(txtMyPort, gbc_txtMyPort);
-		
+
 		lblNomeDoArquivo = new JLabel("Nome do Arquivo");
 		GridBagConstraints gbc_lblNomeDoArquivo = new GridBagConstraints();
 		gbc_lblNomeDoArquivo.anchor = GridBagConstraints.EAST;
@@ -182,7 +187,7 @@ public class FrameCliente extends JFrame implements IServer {
 		gbc_lblNomeDoArquivo.gridx = 0;
 		gbc_lblNomeDoArquivo.gridy = 5;
 		contentPane.add(lblNomeDoArquivo, gbc_lblNomeDoArquivo);
-		
+
 		txtNomeArquivo = new JTextField();
 		txtNomeArquivo.setColumns(10);
 		GridBagConstraints gbc_txtNomeArquivo = new GridBagConstraints();
@@ -192,7 +197,7 @@ public class FrameCliente extends JFrame implements IServer {
 		gbc_txtNomeArquivo.gridx = 1;
 		gbc_txtNomeArquivo.gridy = 5;
 		contentPane.add(txtNomeArquivo, gbc_txtNomeArquivo);
-		
+
 		btnPesquisar = new JButton("Pesquisar");
 		GridBagConstraints gbc_btnPesquisar = new GridBagConstraints();
 		gbc_btnPesquisar.insets = new Insets(0, 0, 5, 0);
@@ -210,7 +215,43 @@ public class FrameCliente extends JFrame implements IServer {
 		contentPane.add(scrollPane, gbc_scrollPane);
 
 		table = new JTable();
-		scrollPane.setColumnHeaderView(table);
+		table.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent evt) {
+
+				if (evt.getClickCount() == 2) {
+					// IP
+					Object IP = table.getValueAt(table.getSelectedRow(), 1);
+					
+					// Porta
+					Object porta = table.getValueAt(table.getSelectedRow(), 2);
+					
+					// Nome Arquivo
+					Object nomeArquivo = table.getValueAt(table.getSelectedRow(), 3);
+
+					
+					try {
+						registry = LocateRegistry.getRegistry((String) IP, (int) porta);
+
+						IServer clienteServidor = (IServer) registry.lookup(IServer.NOME_SERVICO);
+
+						Arquivo arquivo = new Arquivo();
+						arquivo.setNome((String) nomeArquivo);
+
+						byte[] baixarArquivo = clienteServidor.baixarArquivo(arquivo);
+
+						writeFile(new File("C:\\JShare\\Downloads\\" + arquivo.getNome()), baixarArquivo);
+						
+					} catch (RemoteException e) {
+						e.printStackTrace();
+					} catch (NotBoundException e) {
+						e.printStackTrace();
+					}
+
+				}
+			}
+		});
+		scrollPane.setViewportView(table);
 
 		btnConectar = new JButton("Conectar");
 		GridBagConstraints gbc_btnConectar = new GridBagConstraints();
@@ -243,8 +284,9 @@ public class FrameCliente extends JFrame implements IServer {
 	private JLabel lblNomeDoArquivo;
 	private JButton btnPesquisar;
 	private JTextField txtNomeArquivo;
-	
+
 	private ModelArquivo modelo;
+	private JTable table;
 
 	public void configurar() {
 
@@ -268,7 +310,7 @@ public class FrameCliente extends JFrame implements IServer {
 				consultarArquivos();
 			}
 		});
-		
+
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.addWindowListener(new WindowAdapter() {
 			@Override
@@ -281,12 +323,10 @@ public class FrameCliente extends JFrame implements IServer {
 	protected void consultarArquivos() {
 		try {
 			Map<Cliente, List<Arquivo>> arquivosListados = servidor.procurarArquivo(txtNomeArquivo.getText());
-			
+
 			modelo = new ModelArquivo(arquivosListados);
-			
+
 			table.setModel(modelo);
-			
-			
 		} catch (RemoteException e) {
 			e.printStackTrace();
 		}
@@ -337,7 +377,7 @@ public class FrameCliente extends JFrame implements IServer {
 			List<Arquivo> lista = getMyListArchives();
 
 			servidor.publicarListaArquivos(cliente, lista);
-			
+
 			btnDesconectar.setEnabled(true);
 			btnConectar.setEnabled(false);
 			txtNome.setEnabled(false);
@@ -370,8 +410,7 @@ public class FrameCliente extends JFrame implements IServer {
 		}
 
 		/*
-		 * System.out.println("Arquivos"); for (Arquivo arq : listaArquivos) {
-		 * System.out.println("\t" + arq.getTamanho() + "\t" + arq.getNome()); }
+		 * System.out.println("Arquivos"); for (Arquivo arq : listaArquivos) { System.out.println("\t" + arq.getTamanho() + "\t" + arq.getNome()); }
 		 */
 
 		return listaArquivos;
@@ -412,6 +451,27 @@ public class FrameCliente extends JFrame implements IServer {
 		}
 	}
 
+	protected byte[] readFile(File arq) {
+		Path path = Paths.get(arq.getPath());
+		try {
+			byte[] dados = Files.readAllBytes(path);
+			return dados;
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		}
+
+	}
+
+	protected void writeFile(File arq, byte[] dados) {
+		try {
+			Files.write(Paths.get(arq.getPath()), dados, StandardOpenOption.CREATE);
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		}
+
+	}
+	
+	
 	@Override
 	public void registrarCliente(Cliente c) throws RemoteException {
 		// TODO Auto-generated method stub
@@ -432,7 +492,21 @@ public class FrameCliente extends JFrame implements IServer {
 
 	@Override
 	public byte[] baixarArquivo(Arquivo arq) throws RemoteException {
-		// TODO Auto-generated method stub
+		
+		List<Arquivo> myListArchives = getMyListArchives();
+		
+		for (Arquivo arquivo : myListArchives) {
+			// Consultando aqui.. se eu achar o arquivo.. hahahaha ai deu certo meu xapa.. kk
+			if (arquivo.getNome().contains(arq.getNome())){
+				// Aqui começa o baile..
+				
+				byte[] readFile = readFile(new File("C:\\JShare\\Uploads\\" + arq.getNome()));
+				
+				return readFile;
+			}
+		}
+		
+		
 		return null;
 	}
 

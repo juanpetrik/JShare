@@ -22,24 +22,23 @@ public class ModelArquivo extends AbstractTableModel {
 	private Object[][] matriz;
 
 	private int linhas;
-	
-	
+
 	public ModelArquivo(Map<Cliente, List<Arquivo>> lista) {
 		this.ArquivosListados = lista;
-		
+
 		linhas = 0;
-		
+
 		for (Entry<Cliente, List<Arquivo>> e : ArquivosListados.entrySet()) {
 			linhas += e.getValue().size();
 		}
-		
+
 		matriz = new Object[linhas][5];
-		
-		int linha = 0;		
+
+		int linha = 0;
 		for (Entry<Cliente, List<Arquivo>> e : ArquivosListados.entrySet()) {
-			
-			for (Arquivo arq: e.getValue()){
-				
+
+			for (Arquivo arq : e.getValue()) {
+
 				matriz[linha][0] = e.getKey().getNome();
 				matriz[linha][1] = e.getKey().getIp();
 				matriz[linha][2] = e.getKey().getPorta();
@@ -48,7 +47,7 @@ public class ModelArquivo extends AbstractTableModel {
 
 				linha++;
 			}
-			
+
 		}
 	}
 
@@ -66,19 +65,48 @@ public class ModelArquivo extends AbstractTableModel {
 	public Object getValueAt(int row, int col) {
 		switch (col) {
 		// nome do arquivo
-		case 0: return matriz[row][0];
+		case 0:
+			return matriz[row][0];
 
-		case 1: return matriz[row][1];
+		case 1:
+			return matriz[row][1];
 
-		case 2: return matriz[row][2];
-		
-		case 3: return matriz[row][3];
-		
-		case 4: return matriz[row][4];
-		
-		default: return "";
+		case 2:
+			return matriz[row][2];
+
+		case 3:
+			return matriz[row][3];
+
+		case 4:
+			return matriz[row][4];
+
+		default:
+			return "";
 		}
 	}
 
+	@Override
+	public String getColumnName(int column) {
+		switch (column) {
+		// nome do arquivo
+		case 0:
+			return "Nome do Cliente";
+
+		case 1:
+			return "Ip do Cliente";
+
+		case 2:
+			return "Porta do Cliente";
+
+		case 3:
+			return "Nome do Arquivo";
+
+		case 4:
+			return "Tamanho do Arquivo";
+
+		default:
+			return "";
+		}
+	}
 
 }

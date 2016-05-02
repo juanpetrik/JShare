@@ -16,6 +16,7 @@ public class Testar {
 					FrameServidor servidor = new FrameServidor();
 					servidor.setVisible(true);
 					servidor.configurar();
+					
 					servidor.setBounds(0, 0, 1000, 300);
 					
 					FrameCliente cliente = new FrameCliente();
@@ -32,3 +33,5 @@ public class Testar {
 	}
 
 }
+
+

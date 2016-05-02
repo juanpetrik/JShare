@@ -27,6 +27,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Vector;
+import java.util.Map.Entry;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
@@ -324,7 +325,6 @@ public class FrameServidor extends JFrame implements IServer{
 
 	@Override
 	public void publicarListaArquivos(Cliente c, List<Arquivo> lista) throws RemoteException {
-
 		for (Arquivo arquivo : lista) {
 			// Adiciono o arquivo como chave.. porque um cliente pode ter varios arquivos.. ou seja.. daria B.O
 			mapaClienteArquivo.put(arquivo, c);
@@ -336,22 +336,20 @@ public class FrameServidor extends JFrame implements IServer{
 	public Map<Cliente, List<Arquivo>> procurarArquivo(String nome) throws RemoteException {
 		
 		Map<Cliente, List<Arquivo>> lista = new HashMap<>();
-		
-		Cliente c = new Cliente();
-		c.setIp("192.168.0.1");
-		c.setNome("Cliente Teste");
-		c.setPorta(1815);
-		
-		Arquivo arquivo = new Arquivo();
-		
-		arquivo.setNome("Teste");
-		arquivo.setTamanho(2500);
-		
 		List<Arquivo> arquivos = new ArrayList<Arquivo>();
 		
-		arquivos.add(arquivo);
+		for (Entry<Arquivo, Cliente> arquivo : mapaClienteArquivo.entrySet()) {
+			
+			if (arquivo.getKey().getNome().toLowerCase().contains(nome.toLowerCase()) || nome.isEmpty()) {
+				
+				Cliente c = arquivo.getValue();
+				
+				arquivos.add(arquivo.getKey());
+				
+				lista.put(c, arquivos);	
+			}
+		}
 		
-		lista.put(c, arquivos);
 		
 		return lista;
 	}
