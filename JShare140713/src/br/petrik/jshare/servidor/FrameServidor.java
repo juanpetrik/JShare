@@ -231,9 +231,16 @@ public class FrameServidor extends JFrame implements IServer{
 		}
 
 		try {
-
+	
 			servidor = (IServer) UnicastRemoteObject.exportObject(this, 0);
 			registry = LocateRegistry.createRegistry(intPorta);
+
+			/*if (System.getSecurityManager() == null){
+				System.setSecurityManager(new SecurityManager());
+				
+			}*/
+			
+			
 			registry.rebind(IServer.NOME_SERVICO, servidor);
 
 			mostrar("Serviço iniciado.");

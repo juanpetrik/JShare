@@ -235,6 +235,8 @@ public class FrameCliente extends JFrame implements IServer {
 
 						IServer clienteServidor = (IServer) registry.lookup(IServer.NOME_SERVICO);
 
+						clienteServidor.registrarCliente(cliente);
+						
 						Arquivo arquivo = new Arquivo();
 						arquivo.setNome((String) nomeArquivo);
 
@@ -474,8 +476,7 @@ public class FrameCliente extends JFrame implements IServer {
 	
 	@Override
 	public void registrarCliente(Cliente c) throws RemoteException {
-		// TODO Auto-generated method stub
-
+		
 	}
 
 	@Override
