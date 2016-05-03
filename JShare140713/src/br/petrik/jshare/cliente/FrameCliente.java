@@ -21,6 +21,7 @@ import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
+import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -380,6 +381,11 @@ public class FrameCliente extends JFrame implements IServer {
 
 			servidor.publicarListaArquivos(cliente, lista);
 
+			// Aqui tenho que ficar pronto para receber uma conexão..
+			iniciarServico();
+			
+			
+			
 			btnDesconectar.setEnabled(true);
 			btnConectar.setEnabled(false);
 			txtNome.setEnabled(false);
@@ -394,6 +400,34 @@ public class FrameCliente extends JFrame implements IServer {
 		} catch (NotBoundException e) {
 			e.printStackTrace();
 		}
+
+	}
+
+	private void iniciarServico() {
+		
+			String strPorta = txtMyPort.getText().trim();
+
+			if (!strPorta.matches("[0-9]+") || strPorta.length() > 5) {
+				JOptionPane.showMessageDialog(this, "A porta deve ser um valor numérico de no máximo 5 dígitos!");
+				return;
+			}
+			int intPorta = Integer.parseInt(strPorta);
+			if (intPorta < 1024 || intPorta > 65535) {
+				JOptionPane.showMessageDialog(this, "A porta deve estar entre 1024 e 65535");
+				return;
+			}
+
+			try {
+		
+				IServer Eu = (IServer) UnicastRemoteObject.exportObject(this, 0);
+				registry = LocateRegistry.createRegistry(intPorta);
+				
+				registry.rebind(IServer.NOME_SERVICO, Eu);
+
+			} catch (RemoteException e) {
+				JOptionPane.showMessageDialog(this, "Erro criando registro, verifique se a porta já não está sendo usada.");
+				e.printStackTrace();
+			}
 
 	}
 
