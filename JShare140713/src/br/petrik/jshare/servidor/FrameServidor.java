@@ -167,7 +167,7 @@ public class FrameServidor extends JFrame implements IServer{
 	private Map<String, Cliente> mapaClientes = new HashMap<>();
 	
 	// Lista que vai armazenar os arquivos dos clientes..
-	private Map<Arquivo, Cliente> mapaClienteArquivo = new HashMap<>();
+	private Map<Cliente, List<Arquivo>> mapaClienteArquivo = new HashMap<>();
 	
 	private Registry registry;
 	
@@ -333,32 +333,40 @@ public class FrameServidor extends JFrame implements IServer{
 	@Override
 	public void publicarListaArquivos(Cliente c, List<Arquivo> lista) throws RemoteException {
 		for (Arquivo arquivo : lista) {
-			// Adiciono o arquivo como chave.. porque um cliente pode ter varios arquivos.. ou seja.. daria B.O
-			mapaClienteArquivo.put(arquivo, c);
-			mostrar("Adicionando arquivo " + arquivo.getNome() + " do cliente " + c.getNome());
+			
+			mapaClienteArquivo.put(c, lista);
+			
+			mostrar(mapaClienteArquivo.toString());
 		}		
 	}
 
 	@Override
 	public Map<Cliente, List<Arquivo>> procurarArquivo(String nome) throws RemoteException {
 		
-		Map<Cliente, List<Arquivo>> lista = new HashMap<>();
-		List<Arquivo> arquivos = new ArrayList<Arquivo>();
+		Map<Cliente, List<Arquivo>> arquivosEncontrados = new HashMap<Cliente, List<Arquivo>>();
 		
-		for (Entry<Arquivo, Cliente> arquivo : mapaClienteArquivo.entrySet()) {
+		// Percorrendo a HashMap principal.
+		for (Entry<Cliente, List<Arquivo>> arquivos : mapaClienteArquivo.entrySet()){
+			// Percorrendo a List interna.
 			
-			if (arquivo.getKey().getNome().toLowerCase().contains(nome.toLowerCase()) || nome.isEmpty()) {
-				
-				Cliente c = arquivo.getValue();
-				
-				arquivos.add(arquivo.getKey());
-				
-				lista.put(c, arquivos);	
+			for (Arquivo arquivo : arquivos.getValue()) {
+				// Pesquisando pelo nome.
+				if (arquivo.getNome().toLowerCase().contains(nome.toLowerCase())) {
+					List<Arquivo> listaArquivos = new ArrayList<Arquivo>();
+					Cliente novoCliente = new Cliente();
+
+					novoCliente.setNome(arquivos.getKey().getNome());
+					novoCliente.setIp(arquivos.getKey().getIp());
+					novoCliente.setPorta(arquivos.getKey().getPorta());
+
+					listaArquivos.add(arquivo);
+
+					arquivosEncontrados.put(novoCliente, listaArquivos);
+				}
 			}
 		}
 		
-		
-		return lista;
+		return arquivosEncontrados;
 	}
 
 	@Override
